@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
+    use App\Http\Controllers\AdministrationAuthors;
+    use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Administration;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('/admin')->group(function() {
+        Route::get('/', [Administration::class, 'index']);
+
+        Route::prefix('/books')->group(function(){
+            Route::get('/', [AdministrationBooks::class, 'index']);
+            Route::get('/{id}', [AdministrationBooks::class, 'edit']);
+        });
+
+        Route::prefix('/authors')->group(function(){
+            Route::get('/', [AdministrationAuthors::class, 'index']);
+            Route::post('/', [AdministrationAuthors::class, 'addNewAuthor'])->name('add-new-author');
+            Route::get('/{id}', [AdministrationAuthors::class, 'edit']);
+        });
+    }
+);
+
