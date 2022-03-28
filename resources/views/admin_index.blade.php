@@ -8,6 +8,7 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!-- Styles -->
     <style>
@@ -20,7 +21,7 @@
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 <main>
     @forelse($authors as $author)
         <div>
@@ -29,7 +30,9 @@
             <span>{{ $author->name }}</span>
             <span>{{ $author->patronymic }}</span>
             <span>{{ $author->birthday }}</span>
-            <span>Написал книги: @foreach($author->books as $bookOfAuthor){{ $bookOfAuthor->title . ", " }} @endforeach</span>
+            <span>Написал книги: @foreach($author->books as $bookOfAuthor){{ $bookOfAuthor->title }} @endforeach</span>
+            <a class="btn btn-primary" href="{{ route('author-edit', $author->id) }}">Редактировать</a>
+            <a class="btn btn-danger" href="{{ route('author-delete', $author->id) }}">Удалить</a>
         </div>
     @empty
         <div>
@@ -42,7 +45,7 @@
             <span>{{ $book->id }}</span>
             <span>{{ $book->title }}</span>
             <span>{{ (new DateTime($book->date_out))->format("Y") }}</span>
-            <span>Автор: @foreach($book->authors as $authorOfBook){{ $authorOfBook->name . ", " }}@endforeach</span>
+            <span>Автор: @foreach($book->authors as $authorOfBook){{ $authorOfBook->name}}@endforeach</span>
         </div>
     @empty
         <div>
@@ -50,18 +53,6 @@
         </div>
     @endforelse
         <div>==</div>
-    @forelse($relations as $relation)
-        <div>
-            <span>{{ $relation->id }}</span>
-            <span>{{ $relation->author_id }}</span>
-            <span>{{ $relation->book_id }}</span>
-        </div>
-    @empty
-        <div>
-            <span>Отношения книги-авторы не занесены в таблицу...</span>
-        </div>
-    @endforelse
-
     <section>
         Форма добавления нового автора:
         <form method="post" action="{{ route('add-new-author') }}">
@@ -79,6 +70,12 @@
                 @endforelse
             </select>
         </form>
+    </section>
+    <section>
+        Авторы и количество:
+        @foreach($authors as $author)
+            Имя: {{ $author->name }} {{ $author->surname }} {{ $author->patronymic }}, количество: {{ $author->books->count() }} <br/>
+        @endforeach
     </section>
 </main>
 
