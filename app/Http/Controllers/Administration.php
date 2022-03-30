@@ -12,6 +12,6 @@ class Administration extends Controller
     public function index() {
         $authors = (new Authors)->all();
         $books = (new Books())->all();
-        return view("admin_index", compact('authors', 'books'));
+        return view("admin-index", compact('authors', 'books'));
     }
 }

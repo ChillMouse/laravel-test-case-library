@@ -23,60 +23,10 @@
 </head>
 <body>
 <main>
-    @forelse($authors as $author)
-        <div>
-            <span>{{ $author->id }}</span>
-            <span>{{ $author->surname }}</span>
-            <span>{{ $author->name }}</span>
-            <span>{{ $author->patronymic }}</span>
-            <span>{{ $author->birthday }}</span>
-            <span>Написал книги: @foreach($author->books as $bookOfAuthor){{ $bookOfAuthor->title }} @endforeach</span>
-            <a class="btn btn-primary" href="{{ route('author-edit', $author->id) }}">Редактировать</a>
-            <a class="btn btn-danger" href="{{ route('author-delete', $author->id) }}">Удалить</a>
-        </div>
-    @empty
-        <div>
-            <span>Авторы не занесены в таблицу...</span>
-        </div>
-    @endforelse
-    <div>==</div>
-    @forelse($books as $book)
-        <div>
-            <span>{{ $book->id }}</span>
-            <span>{{ $book->title }}</span>
-            <span>{{ (new DateTime($book->date_out))->format("Y") }}</span>
-            <span>Автор: @foreach($book->authors as $authorOfBook){{ $authorOfBook->name}}@endforeach</span>
-        </div>
-    @empty
-        <div>
-            <span>Книги не занесены в таблицу...</span>
-        </div>
-    @endforelse
-        <div>==</div>
-    <section>
-        Форма добавления нового автора:
-        <form method="post" action="{{ route('add-new-author') }}">
-            @csrf
-            <input type="text" placeholder="Фамилия">
-            <input type="text" placeholder="Имя">
-            <input type="text" placeholder="Отчество">
-            <input type="date" placeholder="Дата рождения">
-            <span>[Опционально] Является автором книги:</span>
-            <select>
-                @forelse($books as $book)
-                    <option value="">{{$book->authors()->first()->name}}</option>
-                @empty
-                    <option value="" label="Ничего..."></option>
-                @endforelse
-            </select>
-        </form>
-    </section>
-    <section>
-        Авторы и количество:
-        @foreach($authors as $author)
-            Имя: {{ $author->name }} {{ $author->surname }} {{ $author->patronymic }}, количество: {{ $author->books->count() }} <br/>
-        @endforeach
-    </section>
+    <h1>
+        {{ $answer }}
+    </h1>
+    <a href="{{ route('author-index') }}" class="btn btn-success">Вернуться на страницу авторов</a>
 </main>
 
 </body>
